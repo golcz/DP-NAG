@@ -1,0 +1,63 @@
+\documentclass[12pt]{article}
+\usepackage[letterpaper,textwidth=5in,right=2.5in,textheight=9in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{mathrsfs}
+\usepackage{systeme}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{float}
+
+\usepackage{tabto}    
+\newcommand\mytab{\tab \hspace{-5cm}}
+
+\newcommand\mytabtwo{\tab \hspace{-4cm}}
+
+\title{NAG}
+\author{romanvakhrushev }
+\date{April 2022}
+
+\begin{document}
+
+\text{{\bf Algorithm:} Nesterov Accelerated Gradient (NAG)}
+
+\text{Parameters: $\gamma$ - momentum parameter, $\eta$ - learning rate}
+
+\par\noindent\rule{\textwidth}{0.4pt}
+
+$\beta \leftarrow \text{Split original dataset into batches of size B}$.
+
+$\text{\bf for } \text{each local epoch } e \text{ from 1 to E } \text{\bf do}:$
+
+\mytab $\text{\bf for } \text{batch } b \in \beta \text{ }\text{\bf do}:$
+
+\mytabtwo $\Delta w \leftarrow - \gamma v_{t -1} - \eta \nabla_w l(w - \gamma v_t - 1;b) $
+
+\mytabtwo $w \leftarrow w + \Delta w$
+
+\bigbreak
+
+{\bf Algorithm:} Differentially Private Nesterov Accelerated Gradient (DP-NAG). Parameters: $\gamma$ - momentum parameter, $\eta$ - learning rate, $c$ - clip constant, $\sigma$ - noise scale 
+
+\par\noindent\rule{\textwidth}{0.4pt}
+
+$\beta \leftarrow \text{Split original dataset into batches of size B}$.
+
+$\text{\bf for } \text{each local epoch } e \text{ from 1 to E } \text{\bf do}:$
+
+\mytab $\text{\bf for } \text{batch } b \in \beta \text{ }\text{\bf do}:$
+
+\mytabtwo $\Delta w \leftarrow - \gamma v_{t -1} - \eta \nabla_w l(w - \gamma v_t - 1;b) $
+
+\mytabtwo $\Delta w' \leftarrow \text{clip}_c(\Delta w)$
+
+\mytabtwo $w \leftarrow w + \text{noisy}_{\sigma}(\Delta w')$
+
+\par\noindent\rule{\textwidth}{0.4pt}
+
+$\text{clip}_c(\Delta w) = (\Delta w)/\max(1,\frac{|| \Delta w ||_2}{C})$
+
+$\text{noisy}_{\sigma} (\Delta w') = \Delta w' + \mathcal{N}(0,\sigma^2 C^2 \mathbf I)$
+
+
+
+\end{document}
